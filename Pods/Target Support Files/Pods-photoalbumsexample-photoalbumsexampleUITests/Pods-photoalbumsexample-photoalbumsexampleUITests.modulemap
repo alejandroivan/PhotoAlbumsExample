@@ -1,0 +1,6 @@
+framework module Pods_photoalbumsexample_photoalbumsexampleUITests {
+  umbrella header "Pods-photoalbumsexample-photoalbumsexampleUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
