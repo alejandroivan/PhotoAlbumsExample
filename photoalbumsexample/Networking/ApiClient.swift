@@ -7,9 +7,16 @@ class ApiClient {
         success: @escaping (Data) -> Void,
         failure: @escaping (Error?) -> Void
     ) {
-        URLCache.shared.removeAllCachedResponses() // Alamofire/URLSession must not save cache, we'll do it manually
+        // We'll let Alamofire handle the cache through URLCache, we just need to set the cachePolicy
+        AF.sessionConfiguration.requestCachePolicy = .returnCacheDataElseLoad
 
-        let request = AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil)
+        let request = AF.request(
+            url,
+            method: .get,
+            parameters: nil,
+            encoding: URLEncoding.default,
+            headers: nil
+        )
 
         request.responseJSON { response in
             guard let data = response.data else {
@@ -27,10 +34,17 @@ class ApiClient {
         success: @escaping (Data) -> Void,
         failure: @escaping (Error?) -> Void
     ) {
-        URLCache.shared.removeAllCachedResponses() // Alamofire/URLSession must not save cache, we'll do it manually
+        // We'll let Alamofire handle the cache through URLCache, we just need to set the cachePolicy
+        AF.sessionConfiguration.requestCachePolicy = .returnCacheDataElseLoad
 
-        let request = AF.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil)
-
+        let request = AF.request(
+            url,
+            method: .post,
+            parameters: params,
+            encoding: URLEncoding.default,
+            headers: nil
+        )
+        
         request.responseJSON { response in
             guard let data = response.data else {
                 failure(response.error)

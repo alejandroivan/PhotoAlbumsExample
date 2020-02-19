@@ -7,4 +7,8 @@ struct Constants {
         static let albums = URL(string: "/albums", relativeTo: base)!
         static let photos = URL(string: "/photos", relativeTo: base)!
     }
+
+    enum ErrorView {
+        static let message = "Hubo un problema al cargar la información de Internet. Toca para reintentar."
+    }
 }

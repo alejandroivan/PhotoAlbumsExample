@@ -20,6 +20,8 @@ class UsersSceneInteractor: UsersSceneBusinessLogic, UsersSceneDataStore {
             if success {
                 let response = UsersScene.FetchAll.Response(users: users)
                 self.presenter?.presentUsersList(response: response)
+            } else {
+                self.presenter?.presentErrorMessage()
             }
         })
     }
