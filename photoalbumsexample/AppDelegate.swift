@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  photoalbumsexample
-//
-//  Created by Alejandro Melo Domínguez on 19-02-20.
-//  Copyright © 2020 Alejandro Melo Domínguez. All rights reserved.
-//
-
 import UIKit
 import CoreData
 
@@ -17,6 +9,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        window = UIWindow()
+        window?.rootViewController = AppNavigationController()
+        window?.makeKeyAndVisible()
         return true
     }
 
