@@ -9,6 +9,8 @@ protocol UsersSceneDisplayLogic: class {
 protocol UsersSceneTableViewLogic: class {
     var users: Users? { get }
     var tableView: UITableView { get }
+
+    func didSelectCellAtIndex(_ index: Int)
 }
 
 class UsersSceneViewController: UIViewController, UsersSceneDisplayLogic, UsersSceneTableViewLogic {
@@ -146,6 +148,13 @@ class UsersSceneViewController: UIViewController, UsersSceneDisplayLogic, UsersS
         users = viewModel.users
         tableView.reloadData()
         isLoading = false
+    }
+
+    // MARK: Table view logic
+    func didSelectCellAtIndex(_ index: Int) {
+        if let user = users?[index] {
+            router?.routeToUserDetails(user)
+        }
     }
 }
 
