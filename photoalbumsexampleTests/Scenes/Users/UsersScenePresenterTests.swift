@@ -38,4 +38,17 @@ class UsersScenePresenterTests: XCTestCase {
         XCTAssertTrue(spy.showUsersCalled)
         XCTAssertFalse(spy.showErrorCalled)
     }
+
+    func testShowErrorViewOnScreenAfterPresenting() {
+        // Given
+        let spy = UsersSceneDisplayLogicSpy()
+        sut.viewController = spy
+
+        // When
+        sut.presentErrorMessage()
+
+        // Then
+        XCTAssertFalse(spy.showUsersCalled)
+        XCTAssertTrue(spy.showErrorCalled)
+    }
 }

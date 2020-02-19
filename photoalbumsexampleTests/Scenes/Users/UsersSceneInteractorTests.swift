@@ -42,5 +42,26 @@ class UsersSceneInteractorTests: XCTestCase {
 
         // Then
         XCTAssertTrue(spy.presentUsersListCalled)
+        XCTAssertFalse(spy.presentErrorMessageCalled)
+    }
+
+    func testPresentErrorViewAfterFailingFetchingFromWorker() {
+        // Given
+        let workerSpy = UsersSceneWorkerMock()
+        workerSpy.shouldSuccess = false
+
+        let spy = UsersScenePresentationLogicSpy()
+
+        sut.presenter = spy
+        sut.worker = workerSpy
+
+        let request = UsersScene.FetchAll.Request()
+
+        // When
+        sut.fetchAllUsers(request: request)
+
+        // Then
+        XCTAssertFalse(spy.presentUsersListCalled)
+        XCTAssertTrue(spy.presentErrorMessageCalled)
     }
 }
