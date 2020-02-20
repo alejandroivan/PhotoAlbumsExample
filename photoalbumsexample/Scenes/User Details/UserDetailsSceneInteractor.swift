@@ -13,7 +13,8 @@
 import UIKit
 
 protocol UserDetailsSceneBusinessLogic {
-    func doSomething(request: UserDetailsScene.Something.Request)
+    func presentUserData(request: UserDetailsScene.UpdatedData.Request)
+    func toggleFavoriteStatus(request: UserDetailsScene.MarkAsFavorite.Request)
 }
 
 protocol UserDetailsSceneDataStore {
@@ -27,11 +28,20 @@ class UserDetailsSceneInteractor: UserDetailsSceneBusinessLogic, UserDetailsScen
 
     // MARK: Do something
 
-    func doSomething(request: UserDetailsScene.Something.Request) {
-        worker = UserDetailsSceneWorker()
-        worker?.doSomeWork()
+    func presentUserData(request: UserDetailsScene.UpdatedData.Request) {
+        let response = UserDetailsScene.UpdatedData.Response(
+            screenTitle: user?.name
+        )
+        presenter?.presentUpdatedData(response: response)
+    }
 
-        let response = UserDetailsScene.Something.Response()
-        presenter?.presentSomething(response: response)
+    func toggleFavoriteStatus(request: UserDetailsScene.MarkAsFavorite.Request) {
+        let currentStatus = user?.isFavorite ?? false
+        user?.isFavorite = !currentStatus
+
+        let response = UserDetailsScene.UpdatedData.Response(
+            screenTitle: user?.name
+        )
+        presenter?.presentUpdatedData(response: response)
     }
 }

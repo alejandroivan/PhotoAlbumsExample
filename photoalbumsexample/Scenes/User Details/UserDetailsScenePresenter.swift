@@ -13,7 +13,7 @@
 import UIKit
 
 protocol UserDetailsScenePresentationLogic {
-    func presentSomething(response: UserDetailsScene.Something.Response)
+    func presentUpdatedData(response: UserDetailsScene.UpdatedData.Response)
 }
 
 class UserDetailsScenePresenter: UserDetailsScenePresentationLogic {
@@ -21,8 +21,10 @@ class UserDetailsScenePresenter: UserDetailsScenePresentationLogic {
 
     // MARK: Do something
 
-    func presentSomething(response: UserDetailsScene.Something.Response) {
-        let viewModel = UserDetailsScene.Something.ViewModel()
-        viewController?.displaySomething(viewModel: viewModel)
+    func presentUpdatedData(response: UserDetailsScene.UpdatedData.Response) {
+        let viewModel = UserDetailsScene.UpdatedData.ViewModel(
+            screenTitle: response.screenTitle
+        )
+        viewController?.refreshScreen(viewModel: viewModel)
     }
 }

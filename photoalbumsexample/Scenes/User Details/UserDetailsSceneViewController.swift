@@ -13,17 +13,13 @@
 import UIKit
 
 protocol UserDetailsSceneDisplayLogic: class {
-    func displaySomething(viewModel: UserDetailsScene.Something.ViewModel)
+    func toggleFavoriteStatus()
+    func refreshScreen(viewModel: UserDetailsScene.UpdatedData.ViewModel)
 }
 
 protocol UserDetailsSceneTableViewLogic: class {
-    var detailsInteractor: UserDetailsSceneDataStore? { get }
-    var user: User? { get }
-    var tableView: UITableView { get }
     var tableViewDataSource: UserDetailsSceneTableViewDataSource? { get set }
-    var tableViewDelegate: UserDetailsSceneTableViewDelegate? { get set }
-
-    func toggleFavoriteStatus()
+    var isUserFavorite: Bool { get }
 }
 
 class UserDetailsSceneViewController: UIViewController, UserDetailsSceneDisplayLogic, UserDetailsSceneTableViewLogic {
@@ -31,9 +27,6 @@ class UserDetailsSceneViewController: UIViewController, UserDetailsSceneDisplayL
     var router: (NSObjectProtocol & UserDetailsSceneRoutingLogic & UserDetailsSceneDataPassing)?
 
     var tableView = UITableView()
-    var user: User? {
-        return (interactor as? UserDetailsSceneDataStore)?.user
-    }
 
     var detailsInteractor: UserDetailsSceneDataStore? {
         return interactor as? UserDetailsSceneDataStore
@@ -49,6 +42,10 @@ class UserDetailsSceneViewController: UIViewController, UserDetailsSceneDisplayL
         didSet {
             tableView.delegate = tableViewDelegate
         }
+    }
+
+    var isUserFavorite: Bool {
+        return detailsInteractor?.user?.isFavorite ?? false
     }
 
     // MARK: Object lifecycle
@@ -114,28 +111,25 @@ class UserDetailsSceneViewController: UIViewController, UserDetailsSceneDisplayL
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = user?.name
         view.backgroundColor = Colors.ViewController.background
-        doSomething()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        let request = UserDetailsScene.UpdatedData.Request()
+        interactor?.presentUserData(request: request)
     }
 
     // MARK: Do something
 
     func toggleFavoriteStatus() {
-        guard var user = user else { return }
-        user.isFavorite = !user.isFavorite
-        (interactor as? UserDetailsSceneInteractor)?.user = user
+        let request = UserDetailsScene.MarkAsFavorite.Request()
+        interactor?.toggleFavoriteStatus(request: request)
+    }
+
+    func refreshScreen(viewModel: UserDetailsScene.UpdatedData.ViewModel) {
+        title = viewModel.screenTitle
         tableView.reloadData()
-    }
-
-    //@IBOutlet weak var nameTextField: UITextField!
-
-    func doSomething() {
-        let request = UserDetailsScene.Something.Request()
-        interactor?.doSomething(request: request)
-    }
-
-    func displaySomething(viewModel: UserDetailsScene.Something.ViewModel) {
-        //nameTextField.text = viewModel.name
     }
 }

@@ -25,16 +25,16 @@ extension UserDetailsSceneTableViewDataSource: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
+        let option = options[indexPath.row]
         cell.separatorInset = .zero
-        cell.textLabel?.text = options[indexPath.row].rawValue
+        cell.textLabel?.text = option.rawValue
 
-        switch options[indexPath.row] {
+        switch option {
         case .seeAllAlbums:
             cell.selectionStyle = .gray
             cell.accessoryType = .disclosureIndicator
         case .markAsFavorite:
-            let user = viewController?.user
-            let isFavorite = user?.isFavorite ?? false
+            let isFavorite = viewController?.isUserFavorite ?? false
             cell.selectionStyle = .none
             cell.accessoryType = isFavorite ? .checkmark : .none
         }

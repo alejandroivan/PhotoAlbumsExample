@@ -14,13 +14,19 @@ import UIKit
 
 enum UserDetailsScene {
     // MARK: Use cases
+    enum MarkAsFavorite {
+        struct Request {}
+    }
 
-    enum Something {
-        struct Request {
-        }
+    enum UpdatedData {
+        struct Request {}
+
         struct Response {
+            let screenTitle: String?
         }
+
         struct ViewModel {
+            let screenTitle: String?
         }
     }
 }

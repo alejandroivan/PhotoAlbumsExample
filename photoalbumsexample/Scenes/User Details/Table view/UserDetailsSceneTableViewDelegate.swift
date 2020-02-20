@@ -1,9 +1,9 @@
 import UIKit
 
 class UserDetailsSceneTableViewDelegate: NSObject {
-    weak var viewController: UserDetailsSceneTableViewLogic?
+    weak var viewController: (UserDetailsSceneTableViewLogic & UserDetailsSceneDisplayLogic)?
 
-    init(viewController: UserDetailsSceneTableViewLogic?) {
+    init(viewController: (UserDetailsSceneTableViewLogic & UserDetailsSceneDisplayLogic)?) {
         self.viewController = viewController
     }
 }

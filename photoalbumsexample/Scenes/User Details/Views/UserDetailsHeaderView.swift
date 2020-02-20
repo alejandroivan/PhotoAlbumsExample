@@ -18,5 +18,8 @@ class UserDetailsHeaderView: UIView {
         // Drawing code
     }
     */
-
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        backgroundColor = .red
+    }
 }
