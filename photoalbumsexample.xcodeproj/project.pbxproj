@@ -140,6 +140,7 @@
 		2CBCB09A23FEC882000ED90F /* UserAlbumsSceneModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAlbumsSceneModels.swift; sourceTree = "<group>"; };
 		2CBCB09B23FEC882000ED90F /* UserAlbumsSceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAlbumsSceneViewController.swift; sourceTree = "<group>"; };
 		2CBCB09C23FEC882000ED90F /* UserAlbumsSceneInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAlbumsSceneInteractor.swift; sourceTree = "<group>"; };
+		2CBCB0A323FEC95D000ED90F /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		3194539214C9E05EB3AEB868 /* Pods_photoalbumsexampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_photoalbumsexampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4458C82187134689C84D7625 /* Pods-photoalbumsexample-photoalbumsexampleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-photoalbumsexample-photoalbumsexampleUITests.debug.xcconfig"; path = "Target Support Files/Pods-photoalbumsexample-photoalbumsexampleUITests/Pods-photoalbumsexample-photoalbumsexampleUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		4DFBFA10A52B4317B1F457A0 /* Pods-photoalbumsexampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-photoalbumsexampleTests.release.xcconfig"; path = "Target Support Files/Pods-photoalbumsexampleTests/Pods-photoalbumsexampleTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -531,8 +532,8 @@
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				es,
 			);
 			mainGroup = 2C97542923FD7A5A001BB95C;
 			productRefGroup = 2C97543323FD7A5A001BB95C /* Products */;
@@ -766,6 +767,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				2C97544223FD7A5A001BB95C /* Base */,
+				2CBCB0A323FEC95D000ED90F /* es */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -777,6 +779,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -838,6 +841,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
