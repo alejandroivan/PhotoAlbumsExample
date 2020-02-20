@@ -19,6 +19,7 @@ class UsersSceneViewController: UIViewController, UsersSceneDisplayLogic, UsersS
 
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(style: .white)
     var tableView: UITableView = UITableView()
+    weak var refreshControl: UIRefreshControl?
     weak var errorView: ErrorView?
 
     var tableViewDataSource: UITableViewDataSource? {
@@ -37,10 +38,11 @@ class UsersSceneViewController: UIViewController, UsersSceneDisplayLogic, UsersS
 
     var isLoading: Bool = false {
         didSet {
-            if isLoading {
-                activityIndicator.startAnimating()
+            if self.isLoading {
+                self.activityIndicator.startAnimating()
             } else {
-                activityIndicator.stopAnimating()
+                self.activityIndicator.stopAnimating()
+                self.refreshControl?.endRefreshing()
             }
         }
     }
@@ -72,6 +74,7 @@ class UsersSceneViewController: UIViewController, UsersSceneDisplayLogic, UsersS
         router.dataStore = interactor
         setupTableView()
         setupActivityIndicator()
+        setupPullToRefresh()
     }
 
     func setupTableView() {
@@ -110,6 +113,21 @@ class UsersSceneViewController: UIViewController, UsersSceneDisplayLogic, UsersS
         ])
     }
 
+    private func setupPullToRefresh() {
+        let refreshControl = UIRefreshControl()
+        self.refreshControl = refreshControl
+        refreshControl.backgroundColor = Colors.PullToRefresh.background
+        refreshControl.tintColor = Colors.PullToRefresh.indicator
+
+        refreshControl.addTarget(
+            self,
+            action: #selector(fetchAllUsers),
+            for: .valueChanged
+        )
+
+        tableView.refreshControl = refreshControl
+    }
+
     private func getTopAnchor() -> NSLayoutYAxisAnchor {
         if #available(iOS 11.0, *) {
             return view.safeAreaLayoutGuide.topAnchor
@@ -138,16 +156,21 @@ class UsersSceneViewController: UIViewController, UsersSceneDisplayLogic, UsersS
 
     //@IBOutlet weak var nameTextField: UITextField!
 
+    @objc
     func fetchAllUsers() {
         isLoading = true
+
+        errorView?.removeFromSuperview()
+        tableView.tableHeaderView = nil
+
         let request = UsersScene.FetchAll.Request()
         interactor?.fetchAllUsers(request: request)
     }
 
     func showUsers(viewModel: UsersScene.FetchAll.ViewModel) {
         users = viewModel.users
-        tableView.reloadData()
         isLoading = false
+        self.tableView.reloadData()
     }
 
     // MARK: Table view logic
@@ -160,7 +183,7 @@ class UsersSceneViewController: UIViewController, UsersSceneDisplayLogic, UsersS
 
 extension UsersSceneViewController: ErrorViewDelegate {
     func showError() {
-        isLoading = false
+        guard errorView == nil else { return }
 
         let errorView = ErrorView(delegate: self)
         self.errorView = errorView
@@ -184,6 +207,8 @@ extension UsersSceneViewController: ErrorViewDelegate {
             heightConstraint
         ])
 
+        isLoading = false
+
         UIView.animate(withDuration: 0.3, animations: {
             heightConstraint.constant = 50
             self.view.layoutIfNeeded()
@@ -201,8 +226,6 @@ extension UsersSceneViewController: ErrorViewDelegate {
     }
 
     func didTouchErrorView() {
-        errorView?.removeFromSuperview()
-        tableView.tableHeaderView = nil
         fetchAllUsers()
     }
 }

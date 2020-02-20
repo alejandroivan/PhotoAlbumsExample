@@ -18,4 +18,9 @@ struct Colors {
         static let background = UIColor.red
         static let message = UIColor.white
     }
+
+    enum PullToRefresh {
+        static let background = UIColor.white
+        static let indicator = UIColor.darkGray
+    }
 }
