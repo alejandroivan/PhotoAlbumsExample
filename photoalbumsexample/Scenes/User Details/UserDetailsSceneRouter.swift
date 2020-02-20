@@ -13,7 +13,7 @@
 import UIKit
 
 protocol UserDetailsSceneRoutingLogic {
-    //func routeToSomewhere(segue: UIStoryboardSegue?)
+    func routeToUserAlbums(user: User?)
 }
 
 protocol UserDetailsSceneDataPassing {
@@ -25,5 +25,24 @@ class UserDetailsSceneRouter: NSObject, UserDetailsSceneRoutingLogic, UserDetail
     var dataStore: UserDetailsSceneDataStore?
 
     // MARK: Routing
+    func routeToUserAlbums(user: User?) {
+        guard let user = user else { return }
+        let destinationVC = UserAlbumsSceneViewController()
+        var destinationDS = destinationVC.router!.dataStore!
 
+        passDataToUserAlbums(user: user, destination: &destinationDS)
+        navigateToUserAlbums(source: viewController!, destination: destinationVC)
+    }
+
+    // MARK: Navigation
+
+    func navigateToUserAlbums(source: UserDetailsSceneViewController, destination: UserAlbumsSceneViewController) {
+        source.show(destination, sender: nil)
+    }
+
+    // MARK: Passing data
+
+    func passDataToUserAlbums(user: User, destination: inout UserAlbumsSceneDataStore) {
+        destination.userId = user.id
+    }
 }

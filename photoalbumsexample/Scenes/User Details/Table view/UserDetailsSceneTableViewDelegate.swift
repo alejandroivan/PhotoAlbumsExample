@@ -14,7 +14,7 @@ extension UserDetailsSceneTableViewDelegate: UITableViewDelegate {
 
         switch optionSelected {
         case .seeAllAlbums:
-            break
+            viewController?.didSelectShowAlbums()
         case .markAsFavorite:
             viewController?.toggleFavoriteStatus()
         }

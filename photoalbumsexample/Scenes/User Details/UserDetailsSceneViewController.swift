@@ -15,6 +15,7 @@ import UIKit
 protocol UserDetailsSceneDisplayLogic: class {
     func toggleFavoriteStatus()
     func refreshScreen(viewModel: UserDetailsScene.UpdatedData.ViewModel)
+    func didSelectShowAlbums()
 }
 
 protocol UserDetailsSceneTableViewLogic: class {
@@ -131,5 +132,9 @@ class UserDetailsSceneViewController: UIViewController, UserDetailsSceneDisplayL
     func refreshScreen(viewModel: UserDetailsScene.UpdatedData.ViewModel) {
         title = viewModel.screenTitle
         tableView.reloadData()
+    }
+
+    func didSelectShowAlbums() {
+        router?.routeToUserAlbums(user: detailsInteractor?.user)
     }
 }
