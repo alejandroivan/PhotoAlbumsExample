@@ -18,7 +18,7 @@ class UsersSceneViewController: UIViewController, UsersSceneDisplayLogic, UsersS
     var router: (NSObjectProtocol & UsersSceneRoutingLogic & UsersSceneDataPassing)?
 
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(style: .white)
-    var tableView: UITableView = UITableView()
+    var tableView = UITableView()
     weak var refreshControl: UIRefreshControl?
     weak var errorView: ErrorView?
 

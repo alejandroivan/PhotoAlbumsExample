@@ -16,9 +16,40 @@ protocol UserDetailsSceneDisplayLogic: class {
     func displaySomething(viewModel: UserDetailsScene.Something.ViewModel)
 }
 
-class UserDetailsSceneViewController: UIViewController, UserDetailsSceneDisplayLogic {
+protocol UserDetailsSceneTableViewLogic: class {
+    var detailsInteractor: UserDetailsSceneDataStore? { get }
+    var user: User? { get }
+    var tableView: UITableView { get }
+    var tableViewDataSource: UserDetailsSceneTableViewDataSource? { get set }
+    var tableViewDelegate: UserDetailsSceneTableViewDelegate? { get set }
+
+    func toggleFavoriteStatus()
+}
+
+class UserDetailsSceneViewController: UIViewController, UserDetailsSceneDisplayLogic, UserDetailsSceneTableViewLogic {
     var interactor: UserDetailsSceneBusinessLogic?
     var router: (NSObjectProtocol & UserDetailsSceneRoutingLogic & UserDetailsSceneDataPassing)?
+
+    var tableView = UITableView()
+    var user: User? {
+        return (interactor as? UserDetailsSceneDataStore)?.user
+    }
+
+    var detailsInteractor: UserDetailsSceneDataStore? {
+        return interactor as? UserDetailsSceneDataStore
+    }
+
+    var tableViewDataSource: UserDetailsSceneTableViewDataSource? {
+        didSet {
+            tableView.dataSource = tableViewDataSource
+        }
+    }
+
+    var tableViewDelegate: UserDetailsSceneTableViewDelegate? {
+        didSet {
+            tableView.delegate = tableViewDelegate
+        }
+    }
 
     // MARK: Object lifecycle
 
@@ -45,18 +76,57 @@ class UserDetailsSceneViewController: UIViewController, UserDetailsSceneDisplayL
         presenter.viewController = viewController
         router.viewController = viewController
         router.dataStore = interactor
+        setupTableView()
+    }
+
+    func setupTableView() {
+        view.addSubview(tableView)
+
+        let detailsView = UserDetailsHeaderView()
+        detailsView.viewController = self
+
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.tableHeaderView = UserDetailsHeaderView()
+        tableView.tableFooterView = UIView() // Avoids drawing more cells than available
+
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: getTopAnchor()),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            ])
+
+        tableViewDataSource = UserDetailsSceneTableViewDataSource(viewController: self)
+        tableViewDelegate = UserDetailsSceneTableViewDelegate(viewController: self)
+
+        tableView.register(UsersTableViewCell.self, forCellReuseIdentifier: "UsersTableViewCell")
+    }
+
+    private func getTopAnchor() -> NSLayoutYAxisAnchor {
+        if #available(iOS 11.0, *) {
+            return view.safeAreaLayoutGuide.topAnchor
+        } else {
+            return topLayoutGuide.bottomAnchor
+        }
     }
 
     // MARK: View lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = (interactor as? UserDetailsSceneDataStore)?.user?.name
+        title = user?.name
         view.backgroundColor = Colors.ViewController.background
         doSomething()
     }
 
     // MARK: Do something
+
+    func toggleFavoriteStatus() {
+        guard var user = user else { return }
+        user.isFavorite = !user.isFavorite
+        (interactor as? UserDetailsSceneInteractor)?.user = user
+        tableView.reloadData()
+    }
 
     //@IBOutlet weak var nameTextField: UITextField!
 
