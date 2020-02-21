@@ -19,6 +19,8 @@ Routing and data passing logic between scenes, it manages Models that represent 
 ## 5) Worker(s)
 Each worker works as a use case data layer, with each one for a particular data source. For example, you can have a worker for local data and another one for a remote API.
 
+## A little description for the architecture
+
 The architecture has a one-way communication scheme, where the View only draws data that come from the Presenter and it communicates only with the Interactor (which, according to business, will do one thing or another).
 
 The Interactor can communicate with the Presenter (which decides how the business data given by the interactor is formatted and sent to the View).
