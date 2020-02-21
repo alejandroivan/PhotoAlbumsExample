@@ -24,8 +24,8 @@ class UserDetailsScenePresenter: UserDetailsScenePresentationLogic {
     func presentUpdatedData(response: UserDetailsScene.UpdatedData.Response) {
         let viewModel = UserDetailsScene.UpdatedData.ViewModel(
             screenTitle: response.screenTitle,
-            name: response.name,
-            phone: response.phone
+            name: response.user?.name,
+            phone: response.user?.phone
         )
         viewController?.refreshScreen(viewModel: viewModel)
     }

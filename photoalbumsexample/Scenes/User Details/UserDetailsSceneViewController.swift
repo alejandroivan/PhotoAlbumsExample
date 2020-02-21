@@ -154,6 +154,6 @@ class UserDetailsSceneViewController: UIViewController, UserDetailsSceneDisplayL
     }
 
     func didSelectShowAlbums() {
-        router?.routeToUserAlbums(user: detailsInteractor?.user)
+        router?.routeToUserAlbums()
     }
 }

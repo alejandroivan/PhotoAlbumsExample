@@ -31,8 +31,7 @@ class UserDetailsSceneInteractor: UserDetailsSceneBusinessLogic, UserDetailsScen
     func presentUserData(request: UserDetailsScene.UpdatedData.Request) {
         let response = UserDetailsScene.UpdatedData.Response(
             screenTitle: user?.name,
-            name: user?.name,
-            phone: user?.phone
+            user: user
         )
         presenter?.presentUpdatedData(response: response)
     }
@@ -43,8 +42,7 @@ class UserDetailsSceneInteractor: UserDetailsSceneBusinessLogic, UserDetailsScen
 
         let response = UserDetailsScene.UpdatedData.Response(
             screenTitle: user?.name,
-            name: user?.name,
-            phone: user?.phone
+            user: user
         )
         presenter?.presentUpdatedData(response: response)
     }
