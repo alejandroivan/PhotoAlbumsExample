@@ -30,4 +30,8 @@ struct Colors {
             static let color = UIColor.darkGray
         }
     }
+
+    enum Separators {
+        static let background = UIColor.groupTableViewBackground
+    }
 }

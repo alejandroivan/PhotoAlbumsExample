@@ -15,6 +15,7 @@ class UserDetailsHeaderView: UIView {
     // weak since strong references are created by addSubview()
     private weak var nameLabel: UILabel!
     private weak var phoneButton: UIButton!
+    private weak var separatorView: UIView!
 
     // MARK: - Public variables
     var name: String? {
@@ -65,6 +66,8 @@ class UserDetailsHeaderView: UIView {
 
         setupNameLabel()
         setupPhoneButton()
+        setupSeparator(lastView: phoneButton)
+        layoutIfNeeded()
     }
 
     func setupNameLabel() {
@@ -97,11 +100,28 @@ class UserDetailsHeaderView: UIView {
         NSLayoutConstraint.activate([
             phoneButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
             phoneButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
-            phoneButton.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 12),
-            phoneButton.heightAnchor.constraint(lessThanOrEqualToConstant: 50)
+            phoneButton.topAnchor.constraint(equalTo: nameLabel.bottomAnchor),
+            phoneButton.heightAnchor.constraint(equalToConstant: 50)
         ])
 
         phoneButton.addTarget(self, action: #selector(callUser), for: .touchUpInside)
+    }
+
+    func setupSeparator(lastView: UIView) {
+        let separator = UIView()
+        containerView.addSubview(separator)
+        separatorView = separator
+
+        separator.translatesAutoresizingMaskIntoConstraints = false
+        separator.backgroundColor = Colors.Separators.background
+
+        NSLayoutConstraint.activate([
+            separatorView.topAnchor.constraint(equalTo: lastView.bottomAnchor, constant: 0),
+            separatorView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            separatorView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            separatorView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            separatorView.heightAnchor.constraint(equalToConstant: 1)
+        ])
     }
 }
 

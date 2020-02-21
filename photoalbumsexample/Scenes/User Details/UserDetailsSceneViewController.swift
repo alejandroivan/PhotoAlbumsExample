@@ -28,6 +28,7 @@ class UserDetailsSceneViewController: UIViewController, UserDetailsSceneDisplayL
     var router: (NSObjectProtocol & UserDetailsSceneRoutingLogic & UserDetailsSceneDataPassing)?
 
     var tableView = UITableView()
+    weak var headerView: UserDetailsHeaderView?
 
     var detailsInteractor: UserDetailsSceneDataStore? {
         return interactor as? UserDetailsSceneDataStore
@@ -74,29 +75,37 @@ class UserDetailsSceneViewController: UIViewController, UserDetailsSceneDisplayL
         presenter.viewController = viewController
         router.viewController = viewController
         router.dataStore = interactor
+        setupHeaderView()
         setupTableView()
+    }
+
+    func setupHeaderView() {
+        let header = UserDetailsHeaderView(viewController: self)
+        view.addSubview(header)
+        headerView = header
+
+        NSLayoutConstraint.activate([
+            header.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            header.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            header.topAnchor.constraint(equalTo: getTopAnchor()),
+            header.heightAnchor.constraint(greaterThanOrEqualToConstant: 0)
+        ])
     }
 
     func setupTableView() {
         view.addSubview(tableView)
 
-        let detailsView = getDetailsView()
-
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.tableHeaderView = detailsView
+        tableView.bounces = false
+        tableView.separatorColor = Colors.Separators.background
         tableView.tableFooterView = UIView() // Avoids drawing more cells than available
 
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: getTopAnchor()),
+            tableView.topAnchor.constraint(equalTo: headerView?.bottomAnchor ?? getTopAnchor()),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            detailsView.widthAnchor.constraint(equalTo: tableView.widthAnchor),
-            detailsView.heightAnchor.constraint(equalToConstant: 200)
         ])
-
-        // This is needed for the header view to actually calculate its correct height
-        detailsView.layoutIfNeeded()
 
         tableViewDataSource = UserDetailsSceneTableViewDataSource(viewController: self)
         tableViewDelegate = UserDetailsSceneTableViewDelegate(viewController: self)
@@ -111,16 +120,10 @@ class UserDetailsSceneViewController: UIViewController, UserDetailsSceneDisplayL
         }
     }
 
-    private func getDetailsView() -> UserDetailsHeaderView {
-        let detailsView = UserDetailsHeaderView(viewController: self)
-
-        return detailsView
-    }
-
     private func updateDetailsView(with viewModel: UserDetailsScene.UpdatedData.ViewModel) {
-        guard let detailsView = tableView.tableHeaderView as? UserDetailsHeaderView else { return }
-        detailsView.name = viewModel.name
-        detailsView.phone = viewModel.phone
+        guard let headerView = headerView else { return }
+        headerView.name = viewModel.name
+        headerView.phone = viewModel.phone
     }
 
     // MARK: View lifecycle
