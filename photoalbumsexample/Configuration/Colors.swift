@@ -23,4 +23,11 @@ struct Colors {
         static let background = UIColor.white
         static let indicator = UIColor.darkGray
     }
+
+    enum Labels {
+        enum Title {
+            static let font = UIFont.systemFont(ofSize: 15.0, weight: .bold)
+            static let color = UIColor.darkGray
+        }
+    }
 }

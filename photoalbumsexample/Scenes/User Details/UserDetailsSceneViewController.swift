@@ -80,23 +80,26 @@ class UserDetailsSceneViewController: UIViewController, UserDetailsSceneDisplayL
     func setupTableView() {
         view.addSubview(tableView)
 
-        let detailsView = UserDetailsHeaderView()
-        detailsView.viewController = self
+        let detailsView = getDetailsView()
 
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.tableHeaderView = UserDetailsHeaderView()
+        tableView.tableHeaderView = detailsView
         tableView.tableFooterView = UIView() // Avoids drawing more cells than available
 
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: getTopAnchor()),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-            ])
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            detailsView.widthAnchor.constraint(equalTo: tableView.widthAnchor),
+            detailsView.heightAnchor.constraint(equalToConstant: 200)
+        ])
+
+        // This is needed for the header view to actually calculate its correct height
+        detailsView.layoutIfNeeded()
 
         tableViewDataSource = UserDetailsSceneTableViewDataSource(viewController: self)
         tableViewDelegate = UserDetailsSceneTableViewDelegate(viewController: self)
-
         tableView.register(UsersTableViewCell.self, forCellReuseIdentifier: "UsersTableViewCell")
     }
 
@@ -106,6 +109,18 @@ class UserDetailsSceneViewController: UIViewController, UserDetailsSceneDisplayL
         } else {
             return topLayoutGuide.bottomAnchor
         }
+    }
+
+    private func getDetailsView() -> UserDetailsHeaderView {
+        let detailsView = UserDetailsHeaderView(viewController: self)
+
+        return detailsView
+    }
+
+    private func updateDetailsView(with viewModel: UserDetailsScene.UpdatedData.ViewModel) {
+        guard let detailsView = tableView.tableHeaderView as? UserDetailsHeaderView else { return }
+        detailsView.name = viewModel.name
+        detailsView.phone = viewModel.phone
     }
 
     // MARK: View lifecycle
@@ -132,6 +147,7 @@ class UserDetailsSceneViewController: UIViewController, UserDetailsSceneDisplayL
     func refreshScreen(viewModel: UserDetailsScene.UpdatedData.ViewModel) {
         title = viewModel.screenTitle
         tableView.reloadData()
+        updateDetailsView(with: viewModel)
     }
 
     func didSelectShowAlbums() {

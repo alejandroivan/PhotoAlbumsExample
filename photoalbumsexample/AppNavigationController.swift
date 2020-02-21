@@ -31,6 +31,7 @@ class AppNavigationController: UINavigationController {
         navigationBar.barStyle = .black
         navigationBar.barTintColor = Colors.NavigationBar.background
         navigationBar.tintColor = Colors.NavigationBar.text
+        navigationBar.isTranslucent = false
     }
     
     func setupInitialViewController() {

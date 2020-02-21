@@ -23,10 +23,14 @@ enum UserDetailsScene {
 
         struct Response {
             let screenTitle: String?
+            let name: String?
+            let phone: String?
         }
 
         struct ViewModel {
             let screenTitle: String?
+            let name: String?
+            let phone: String?
         }
     }
 }

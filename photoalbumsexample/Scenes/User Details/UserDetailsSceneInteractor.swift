@@ -30,7 +30,9 @@ class UserDetailsSceneInteractor: UserDetailsSceneBusinessLogic, UserDetailsScen
 
     func presentUserData(request: UserDetailsScene.UpdatedData.Request) {
         let response = UserDetailsScene.UpdatedData.Response(
-            screenTitle: user?.name
+            screenTitle: user?.name,
+            name: user?.name,
+            phone: user?.phone
         )
         presenter?.presentUpdatedData(response: response)
     }
@@ -40,7 +42,9 @@ class UserDetailsSceneInteractor: UserDetailsSceneBusinessLogic, UserDetailsScen
         user?.isFavorite = !currentStatus
 
         let response = UserDetailsScene.UpdatedData.Response(
-            screenTitle: user?.name
+            screenTitle: user?.name,
+            name: user?.name,
+            phone: user?.phone
         )
         presenter?.presentUpdatedData(response: response)
     }
