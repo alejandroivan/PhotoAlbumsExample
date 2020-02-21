@@ -34,7 +34,9 @@ class UsersSceneViewController: UIViewController, UsersSceneDisplayLogic, UsersS
         }
     }
 
-    var users: Users?
+    var users: Users? {
+        return (interactor as? UsersSceneDataStore)?.users
+    }
 
     var isLoading: Bool = false {
         didSet {
@@ -168,16 +170,13 @@ class UsersSceneViewController: UIViewController, UsersSceneDisplayLogic, UsersS
     }
 
     func showUsers(viewModel: UsersScene.FetchAll.ViewModel) {
-        users = viewModel.users
         isLoading = false
         self.tableView.reloadData()
     }
 
     // MARK: Table view logic
     func didSelectCellAtIndex(_ index: Int) {
-        if let user = users?[index] {
-            router?.routeToUserDetails(user)
-        }
+        router?.routeToUserDetails(for: index)
     }
 }
 

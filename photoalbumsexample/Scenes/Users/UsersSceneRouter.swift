@@ -1,7 +1,7 @@
 import UIKit
 
 protocol UsersSceneRoutingLogic {
-    func routeToUserDetails(_ user: User)
+    func routeToUserDetails(for index: Int)
 }
 
 protocol UsersSceneDataPassing {
@@ -14,11 +14,11 @@ class UsersSceneRouter: NSObject, UsersSceneRoutingLogic, UsersSceneDataPassing 
 
     // MARK: Routing
 
-    func routeToUserDetails(_ user: User) {
+    func routeToUserDetails(for index: Int) {
         let destinationVC = UserDetailsSceneViewController()
         var destinationDS = destinationVC.router!.dataStore!
 
-        passDataToUserDetails(user: user, destination: &destinationDS)
+        passDataToUserDetails(source: dataStore!, destination: &destinationDS, userIndex: index)
         navigateToUserDetails(source: viewController!, destination: destinationVC)
     }
 
@@ -30,7 +30,8 @@ class UsersSceneRouter: NSObject, UsersSceneRoutingLogic, UsersSceneDataPassing 
 
     // MARK: Passing data
 
-    func passDataToUserDetails(user: User, destination: inout UserDetailsSceneDataStore) {
+    func passDataToUserDetails(source: UsersSceneDataStore, destination: inout UserDetailsSceneDataStore, userIndex: Int) {
+        guard let user = source.users?[userIndex] else { return }
         destination.user = user
     }
 }

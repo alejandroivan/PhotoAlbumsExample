@@ -5,20 +5,21 @@ protocol UsersSceneBusinessLogic {
 }
 
 protocol UsersSceneDataStore {
-    //var name: String { get set }
+    var users: Users? { get }
 }
 
 class UsersSceneInteractor: UsersSceneBusinessLogic, UsersSceneDataStore {
     var presenter: UsersScenePresentationLogic?
     var worker: UsersSceneWorker? = UsersSceneWorker()
-    //var name: String = ""
+    var users: Users?
 
     // MARK: Do something
 
     func fetchAllUsers(request: UsersScene.FetchAll.Request) {
         worker?.fetchAllUsers(completion: { (success, users) in
             if success {
-                let response = UsersScene.FetchAll.Response(users: users)
+                self.users = users
+                let response = UsersScene.FetchAll.Response()
                 self.presenter?.presentUsersList(response: response)
             } else {
                 self.presenter?.presentErrorMessage()
