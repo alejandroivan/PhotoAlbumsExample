@@ -17,12 +17,18 @@ protocol UserAlbumsSceneDisplayLogic: class {
     func displayError()
 }
 
-protocol UserAlbumsSceneTableViewLogic: class {}
+protocol UserAlbumsSceneTableViewLogic: class {
+    var albums: [AlbumViewModel] { get }
+    func didSelectAlbum(at index: Int)
+}
 
 class UserAlbumsSceneViewController: UIViewController, UserAlbumsSceneDisplayLogic, UserAlbumsSceneTableViewLogic {
     var interactor: UserAlbumsSceneBusinessLogic?
     var router: (NSObjectProtocol & UserAlbumsSceneRoutingLogic & UserAlbumsSceneDataPassing)?
 
+    var albums: [AlbumViewModel] = []
+
+    weak var errorView: ErrorView?
     var tableView = UITableView()
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(style: .white)
 
@@ -97,8 +103,8 @@ class UserAlbumsSceneViewController: UIViewController, UserAlbumsSceneDisplayLog
         view.addSubview(tableView)
 
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.bounces = false
         tableView.separatorColor = Colors.Separators.background
+        tableView.separatorInset = .zero
         tableView.tableFooterView = UIView() // Avoids drawing more cells than available
 
         NSLayoutConstraint.activate([
@@ -142,11 +148,64 @@ class UserAlbumsSceneViewController: UIViewController, UserAlbumsSceneDisplayLog
 
     func displayAlbums(viewModel: UserAlbumsScene.LoadAlbums.ViewModel) {
         isLoading = false
-        print("ALBUMS: \(viewModel.albums)")
+        albums = viewModel.albums
+        tableView.reloadData()
     }
 
+    func didSelectAlbum(at index: Int) {
+        let album = albums[index]
+        router?.routeToAlbum(with: album.id)
+    }
+}
+
+
+extension UserAlbumsSceneViewController: ErrorViewDelegate {
     func displayError() {
+        guard errorView == nil else { return }
+
+        let errorView = ErrorView(delegate: self)
+        self.errorView = errorView
+        view.addSubview(errorView)
+        view.bringSubviewToFront(errorView)
+
+        let heightConstraint = NSLayoutConstraint(
+            item: errorView,
+            attribute: .height,
+            relatedBy: .equal,
+            toItem: nil,
+            attribute: .notAnAttribute,
+            multiplier: 1.0,
+            constant: 0
+        )
+
+        NSLayoutConstraint.activate([
+            errorView.topAnchor.constraint(equalTo: getTopAnchor()),
+            errorView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            errorView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            heightConstraint
+            ])
+
         isLoading = false
-        print("ERROR!")
+
+        UIView.animate(withDuration: 0.3, animations: {
+            heightConstraint.constant = 50
+            self.view.layoutIfNeeded()
+        }) { _ in
+            // Create a header view with the same height as the error view, so content doesn't overlap
+            self.tableView.tableHeaderView = UIView(
+                frame: CGRect(
+                    x: 0,
+                    y: 0,
+                    width: 0,
+                    height: 50
+                )
+            )
+        }
+    }
+
+    func didTouchErrorView() {
+        errorView?.removeFromSuperview()
+        tableView.tableHeaderView = nil
+        loadAlbums()
     }
 }

@@ -1,22 +1,22 @@
 import UIKit
 
 class UserAlbumsSceneTableViewDataSource: NSObject {
-    weak var viewController: UserAlbumsSceneTableViewLogic?
+    weak var viewController: (UserAlbumsSceneTableViewLogic & UserAlbumsSceneDisplayLogic)?
 
-    init(viewController: UserAlbumsSceneTableViewLogic?) {
+    init(viewController: (UserAlbumsSceneTableViewLogic & UserAlbumsSceneDisplayLogic)?) {
         self.viewController = viewController
     }
 }
 
 extension UserAlbumsSceneTableViewDataSource: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return viewController!.albums.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let album = viewController?.albums[indexPath.row]
         let cell = UITableViewCell()
+        cell.textLabel?.text = album?.title
         return cell
     }
-
-
 }

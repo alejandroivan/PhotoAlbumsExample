@@ -165,7 +165,7 @@ class UsersSceneViewController: UIViewController, UsersSceneDisplayLogic, UsersS
 
     func showUsers(viewModel: UsersScene.FetchAll.ViewModel) {
         isLoading = false
-        self.tableView.reloadData()
+        tableView.reloadData()
     }
 
     // MARK: Table view logic

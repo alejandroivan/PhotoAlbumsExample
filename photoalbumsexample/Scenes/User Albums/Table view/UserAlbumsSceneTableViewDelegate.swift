@@ -10,5 +10,6 @@ class UserAlbumsSceneTableViewDelegate: NSObject {
 
 extension UserAlbumsSceneTableViewDelegate: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewController?.didSelectAlbum(at: indexPath.row)
     }
 }

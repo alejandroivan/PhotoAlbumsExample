@@ -1,9 +1,5 @@
 import UIKit
 
-protocol ErrorViewDelegate: class {
-    func didTouchErrorView()
-}
-
 class ErrorView: UIView {
     weak var delegate: ErrorViewDelegate?
     private let messageLabel = UILabel()

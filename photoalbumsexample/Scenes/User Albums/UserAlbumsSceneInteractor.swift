@@ -24,11 +24,13 @@ class UserAlbumsSceneInteractor: UserAlbumsSceneBusinessLogic, UserAlbumsSceneDa
     var presenter: UserAlbumsScenePresentationLogic?
     var worker: UserAlbumsSceneWorker? = UserAlbumsSceneWorker()
     var userId: Int = 0
+    var albums: Albums = []
 
     // MARK: Do something
 
     func loadAlbums(request: UserAlbumsScene.LoadAlbums.Request) {
         worker?.fetchAlbumsForUser(id: userId) { success, albums in
+            self.albums = albums
             let response = UserAlbumsScene.LoadAlbums.Response(
                 success: success,
                 albums: albums

@@ -13,7 +13,7 @@
 import UIKit
 
 @objc protocol UserAlbumsSceneRoutingLogic {
-    //func routeToSomewhere(segue: UIStoryboardSegue?)
+    func routeToAlbum(with id: Int)
 }
 
 protocol UserAlbumsSceneDataPassing {
@@ -25,6 +25,10 @@ class UserAlbumsSceneRouter: NSObject, UserAlbumsSceneRoutingLogic, UserAlbumsSc
     var dataStore: UserAlbumsSceneDataStore?
 
     // MARK: Routing
+
+    func routeToAlbum(with id: Int) {
+        print("Routing to album with ID: \(id)")
+    }
 
     //func routeToSomewhere(segue: UIStoryboardSegue?)
     //{
