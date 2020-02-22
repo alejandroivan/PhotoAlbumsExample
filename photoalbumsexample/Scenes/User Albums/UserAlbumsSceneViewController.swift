@@ -154,7 +154,9 @@ class UserAlbumsSceneViewController: UIViewController, UserAlbumsSceneDisplayLog
 
     func didSelectAlbum(at index: Int) {
         let album = albums[index]
-        router?.routeToAlbum(with: album.id)
+        var dataStore = interactor as? UserAlbumsSceneDataStore
+        dataStore?.selectedAlbumId = album.id
+        router?.routeToAlbum()
     }
 }
 
