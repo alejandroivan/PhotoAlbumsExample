@@ -74,9 +74,6 @@ class UsersSceneViewController: UIViewController, UsersSceneDisplayLogic, UsersS
         presenter.viewController = viewController
         router.viewController = viewController
         router.dataStore = interactor
-        setupTableView()
-        setupActivityIndicator()
-        setupPullToRefresh()
     }
 
     func setupTableView() {
@@ -130,20 +127,17 @@ class UsersSceneViewController: UIViewController, UsersSceneDisplayLogic, UsersS
         tableView.refreshControl = refreshControl
     }
 
-    private func getTopAnchor() -> NSLayoutYAxisAnchor {
-        if #available(iOS 11.0, *) {
-            return view.safeAreaLayoutGuide.topAnchor
-        } else {
-            return topLayoutGuide.bottomAnchor
-        }
-    }
-
     // MARK: View lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupTableView()
+        setupActivityIndicator()
+        setupPullToRefresh()
+
         title = "Usuarios"
         view.backgroundColor = Colors.ViewController.background
+
         fetchAllUsers()
     }
 

@@ -13,12 +13,41 @@
 import UIKit
 
 protocol UserAlbumsSceneDisplayLogic: class {
-    func displaySomething(viewModel: UserAlbumsScene.Something.ViewModel)
+    func displayAlbums(viewModel: UserAlbumsScene.LoadAlbums.ViewModel)
+    func displayError()
 }
 
-class UserAlbumsSceneViewController: UIViewController, UserAlbumsSceneDisplayLogic {
+protocol UserAlbumsSceneTableViewLogic: class {}
+
+class UserAlbumsSceneViewController: UIViewController, UserAlbumsSceneDisplayLogic, UserAlbumsSceneTableViewLogic {
     var interactor: UserAlbumsSceneBusinessLogic?
     var router: (NSObjectProtocol & UserAlbumsSceneRoutingLogic & UserAlbumsSceneDataPassing)?
+
+    var tableView = UITableView()
+    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(style: .white)
+
+    var tableViewDataSource: UserAlbumsSceneTableViewDataSource? {
+        didSet {
+            tableView.dataSource = tableViewDataSource
+        }
+    }
+
+    var tableViewDelegate: UserAlbumsSceneTableViewDelegate? {
+        didSet {
+            tableView.delegate = tableViewDelegate
+        }
+    }
+
+    var isLoading: Bool = false {
+        didSet {
+            if self.isLoading {
+                self.activityIndicator.startAnimating()
+            } else {
+                self.activityIndicator.stopAnimating()
+//                self.refreshControl?.endRefreshing()
+            }
+        }
+    }
 
     // MARK: Object lifecycle
 
@@ -45,38 +74,79 @@ class UserAlbumsSceneViewController: UIViewController, UserAlbumsSceneDisplayLog
         presenter.viewController = viewController
         router.viewController = viewController
         router.dataStore = interactor
-        title = "Álbumes"
-        view.backgroundColor = Colors.ViewController.background
     }
 
-    // MARK: Routing
+    private func setupActivityIndicator() {
+        view.addSubview(activityIndicator)
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let scene = segue.identifier {
-            let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
-            if let router = router, router.responds(to: selector) {
-                router.perform(selector, with: segue)
-            }
-        }
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.backgroundColor = Colors.ActivityIndicator.background
+        activityIndicator.clipsToBounds = true
+        activityIndicator.layer.cornerRadius = 10
+        activityIndicator.hidesWhenStopped = true
+
+        NSLayoutConstraint.activate([
+            activityIndicator.widthAnchor.constraint(equalToConstant: 50),
+            activityIndicator.heightAnchor.constraint(equalToConstant: 50),
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
+    }
+
+    func setupTableView() {
+        view.addSubview(tableView)
+
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.bounces = false
+        tableView.separatorColor = Colors.Separators.background
+        tableView.tableFooterView = UIView() // Avoids drawing more cells than available
+
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: getTopAnchor()),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            ])
+
+        tableViewDataSource = UserAlbumsSceneTableViewDataSource(viewController: self)
+        tableViewDelegate = UserAlbumsSceneTableViewDelegate(viewController: self)
+        tableView.register(UsersTableViewCell.self, forCellReuseIdentifier: "UsersTableViewCell")
     }
 
     // MARK: View lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        doSomething()
+        setupTableView()
+        setupActivityIndicator()
+        title = "Álbumes"
+        view.backgroundColor = Colors.ViewController.background
+
+        loadAlbums()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let indexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: indexPath, animated: animated)
+        }
     }
 
     // MARK: Do something
 
-    //@IBOutlet weak var nameTextField: UITextField!
-
-    func doSomething() {
-        let request = UserAlbumsScene.Something.Request()
-        interactor?.doSomething(request: request)
+    func loadAlbums() {
+        isLoading = true
+        let request = UserAlbumsScene.LoadAlbums.Request()
+        interactor?.loadAlbums(request: request)
     }
 
-    func displaySomething(viewModel: UserAlbumsScene.Something.ViewModel) {
-        //nameTextField.text = viewModel.name
+    func displayAlbums(viewModel: UserAlbumsScene.LoadAlbums.ViewModel) {
+        isLoading = false
+        print("ALBUMS: \(viewModel.albums)")
+    }
+
+    func displayError() {
+        isLoading = false
+        print("ERROR!")
     }
 }

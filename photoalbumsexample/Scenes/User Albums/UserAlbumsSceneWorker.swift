@@ -13,6 +13,25 @@
 import UIKit
 
 class UserAlbumsSceneWorker {
-    func doSomeWork() {
+    func fetchAlbumsForUser(id: Int, completion: @escaping (_ success: Bool, _ albums: Albums) -> Void) {
+        let albumsBaseUrl = Constants.API.albums
+        let url = albumsBaseUrl.urlByAddingParameters([
+            Constants.Parameters.userId: String(id)
+        ])
+
+        ApiClient.get(
+            url,
+            success: { data in
+                do {
+                    let albums = try JSONDecoder().decode(Albums.self, from: data)
+                    completion(true, albums)
+                } catch {
+                    completion(false, [])
+                }
+            },
+            failure: { error in
+                completion(false, [])
+            }
+        )
     }
 }

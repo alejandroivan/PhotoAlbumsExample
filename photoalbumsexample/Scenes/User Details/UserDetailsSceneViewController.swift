@@ -75,8 +75,6 @@ class UserDetailsSceneViewController: UIViewController, UserDetailsSceneDisplayL
         presenter.viewController = viewController
         router.viewController = viewController
         router.dataStore = interactor
-        setupHeaderView()
-        setupTableView()
     }
 
     func setupHeaderView() {
@@ -112,14 +110,6 @@ class UserDetailsSceneViewController: UIViewController, UserDetailsSceneDisplayL
         tableView.register(UsersTableViewCell.self, forCellReuseIdentifier: "UsersTableViewCell")
     }
 
-    private func getTopAnchor() -> NSLayoutYAxisAnchor {
-        if #available(iOS 11.0, *) {
-            return view.safeAreaLayoutGuide.topAnchor
-        } else {
-            return topLayoutGuide.bottomAnchor
-        }
-    }
-
     private func updateDetailsView(with viewModel: UserDetailsScene.UpdatedData.ViewModel) {
         guard let headerView = headerView else { return }
         headerView.name = viewModel.name
@@ -130,14 +120,19 @@ class UserDetailsSceneViewController: UIViewController, UserDetailsSceneDisplayL
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupHeaderView()
+        setupTableView()
         view.backgroundColor = Colors.ViewController.background
+
+        let request = UserDetailsScene.UpdatedData.Request()
+        interactor?.presentUserData(request: request)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        let request = UserDetailsScene.UpdatedData.Request()
-        interactor?.presentUserData(request: request)
+        if let indexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: indexPath, animated: animated)
+        }
     }
 
     // MARK: Do something

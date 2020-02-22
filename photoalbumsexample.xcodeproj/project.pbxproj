@@ -34,6 +34,10 @@
 		2C83764323FE0AAA002ACF87 /* UserDetailsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C83764223FE0AAA002ACF87 /* UserDetailsHeaderView.swift */; };
 		2C83764623FE0B23002ACF87 /* UserDetailsSceneTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C83764523FE0B23002ACF87 /* UserDetailsSceneTableViewDataSource.swift */; };
 		2C83764823FE0B2B002ACF87 /* UserDetailsSceneTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C83764723FE0B2B002ACF87 /* UserDetailsSceneTableViewDelegate.swift */; };
+		2C93229824009D7900AD634E /* AlbumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93229724009D7900AD634E /* AlbumViewModel.swift */; };
+		2C93229A2400A66A00AD634E /* UIViewController+TopAnchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9322992400A66A00AD634E /* UIViewController+TopAnchor.swift */; };
+		2C93229D2400A6EB00AD634E /* UserAlbumsSceneTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93229C2400A6EB00AD634E /* UserAlbumsSceneTableViewDataSource.swift */; };
+		2C93229F2400A6FE00AD634E /* UserAlbumsSceneTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93229E2400A6FE00AD634E /* UserAlbumsSceneTableViewDelegate.swift */; };
 		2C97543623FD7A5A001BB95C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C97543523FD7A5A001BB95C /* AppDelegate.swift */; };
 		2C97543823FD7A5A001BB95C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C97543723FD7A5A001BB95C /* ViewController.swift */; };
 		2C97543E23FD7A5A001BB95C /* photoalbumsexample.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C97543C23FD7A5A001BB95C /* photoalbumsexample.xcdatamodeld */; };
@@ -110,6 +114,10 @@
 		2C83764223FE0AAA002ACF87 /* UserDetailsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsHeaderView.swift; sourceTree = "<group>"; };
 		2C83764523FE0B23002ACF87 /* UserDetailsSceneTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsSceneTableViewDataSource.swift; sourceTree = "<group>"; };
 		2C83764723FE0B2B002ACF87 /* UserDetailsSceneTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsSceneTableViewDelegate.swift; sourceTree = "<group>"; };
+		2C93229724009D7900AD634E /* AlbumViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewModel.swift; sourceTree = "<group>"; };
+		2C9322992400A66A00AD634E /* UIViewController+TopAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+TopAnchor.swift"; sourceTree = "<group>"; };
+		2C93229C2400A6EB00AD634E /* UserAlbumsSceneTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAlbumsSceneTableViewDataSource.swift; sourceTree = "<group>"; };
+		2C93229E2400A6FE00AD634E /* UserAlbumsSceneTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAlbumsSceneTableViewDelegate.swift; sourceTree = "<group>"; };
 		2C97543223FD7A5A001BB95C /* photoalbumsexample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = photoalbumsexample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C97543523FD7A5A001BB95C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C97543723FD7A5A001BB95C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -310,6 +318,23 @@
 			path = "Table view";
 			sourceTree = "<group>";
 		};
+		2C93229624009D6F00AD634E /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				2C93229724009D7900AD634E /* AlbumViewModel.swift */,
+			);
+			path = "View Models";
+			sourceTree = "<group>";
+		};
+		2C93229B2400A6DC00AD634E /* Table view */ = {
+			isa = PBXGroup;
+			children = (
+				2C93229C2400A6EB00AD634E /* UserAlbumsSceneTableViewDataSource.swift */,
+				2C93229E2400A6FE00AD634E /* UserAlbumsSceneTableViewDelegate.swift */,
+			);
+			path = "Table view";
+			sourceTree = "<group>";
+		};
 		2C97542923FD7A5A001BB95C = {
 			isa = PBXGroup;
 			children = (
@@ -385,6 +410,7 @@
 			isa = PBXGroup;
 			children = (
 				2C97546A23FD7C5A001BB95C /* URL+Extensions.swift */,
+				2C9322992400A66A00AD634E /* UIViewController+TopAnchor.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -421,6 +447,8 @@
 		2CBCB09623FEC876000ED90F /* User Albums */ = {
 			isa = PBXGroup;
 			children = (
+				2C93229B2400A6DC00AD634E /* Table view */,
+				2C93229624009D6F00AD634E /* View Models */,
 				2CBCB09723FEC882000ED90F /* UserAlbumsScenePresenter.swift */,
 				2CBCB09823FEC882000ED90F /* UserAlbumsSceneWorker.swift */,
 				2CBCB09923FEC882000ED90F /* UserAlbumsSceneRouter.swift */,
@@ -712,10 +740,14 @@
 				2C83764323FE0AAA002ACF87 /* UserDetailsHeaderView.swift in Sources */,
 				2C97543623FD7A5A001BB95C /* AppDelegate.swift in Sources */,
 				2C97547D23FD8714001BB95C /* Photo.swift in Sources */,
+				2C93229824009D7900AD634E /* AlbumViewModel.swift in Sources */,
 				2C384C8D23FDD1E2008AAD85 /* UsersTableViewCell.swift in Sources */,
+				2C93229F2400A6FE00AD634E /* UserAlbumsSceneTableViewDelegate.swift in Sources */,
 				2CBCB09D23FEC882000ED90F /* UserAlbumsScenePresenter.swift in Sources */,
+				2C93229A2400A66A00AD634E /* UIViewController+TopAnchor.swift in Sources */,
 				2C384C7C23FD9958008AAD85 /* UsersScenePresenter.swift in Sources */,
 				2C384C8023FD9958008AAD85 /* UsersSceneViewController.swift in Sources */,
+				2C93229D2400A6EB00AD634E /* UserAlbumsSceneTableViewDataSource.swift in Sources */,
 				2C83763D23FE0041002ACF87 /* UserDetailsSceneRouter.swift in Sources */,
 				2C83764023FE0041002ACF87 /* UserDetailsSceneInteractor.swift in Sources */,
 				2C97546823FD7B4E001BB95C /* Constants.swift in Sources */,

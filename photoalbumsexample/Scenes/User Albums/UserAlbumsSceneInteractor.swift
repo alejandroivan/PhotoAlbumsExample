@@ -13,7 +13,7 @@
 import UIKit
 
 protocol UserAlbumsSceneBusinessLogic {
-    func doSomething(request: UserAlbumsScene.Something.Request)
+    func loadAlbums(request: UserAlbumsScene.LoadAlbums.Request)
 }
 
 protocol UserAlbumsSceneDataStore {
@@ -22,16 +22,18 @@ protocol UserAlbumsSceneDataStore {
 
 class UserAlbumsSceneInteractor: UserAlbumsSceneBusinessLogic, UserAlbumsSceneDataStore {
     var presenter: UserAlbumsScenePresentationLogic?
-    var worker: UserAlbumsSceneWorker?
+    var worker: UserAlbumsSceneWorker? = UserAlbumsSceneWorker()
     var userId: Int = 0
 
     // MARK: Do something
 
-    func doSomething(request: UserAlbumsScene.Something.Request) {
-        worker = UserAlbumsSceneWorker()
-        worker?.doSomeWork()
-
-        let response = UserAlbumsScene.Something.Response()
-        presenter?.presentSomething(response: response)
+    func loadAlbums(request: UserAlbumsScene.LoadAlbums.Request) {
+        worker?.fetchAlbumsForUser(id: userId) { success, albums in
+            let response = UserAlbumsScene.LoadAlbums.Response(
+                success: success,
+                albums: albums
+            )
+            self.presenter?.presentAlbums(response: response)
+        }
     }
 }

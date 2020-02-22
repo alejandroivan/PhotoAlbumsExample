@@ -13,7 +13,7 @@
 import UIKit
 
 protocol UserAlbumsScenePresentationLogic {
-    func presentSomething(response: UserAlbumsScene.Something.Response)
+    func presentAlbums(response: UserAlbumsScene.LoadAlbums.Response)
 }
 
 class UserAlbumsScenePresenter: UserAlbumsScenePresentationLogic {
@@ -21,8 +21,14 @@ class UserAlbumsScenePresenter: UserAlbumsScenePresentationLogic {
 
     // MARK: Do something
 
-    func presentSomething(response: UserAlbumsScene.Something.Response) {
-        let viewModel = UserAlbumsScene.Something.ViewModel()
-        viewController?.displaySomething(viewModel: viewModel)
+    func presentAlbums(response: UserAlbumsScene.LoadAlbums.Response) {
+        if response.success {
+            let viewModel = UserAlbumsScene.LoadAlbums.ViewModel(
+                albums: response.albums.map { AlbumViewModel(id: $0.id, title: $0.title) }
+            )
+            viewController?.displayAlbums(viewModel: viewModel)
+        } else {
+            viewController?.displayError()
+        }
     }
 }

@@ -15,6 +15,19 @@ import UIKit
 enum UserAlbumsScene {
     // MARK: Use cases
 
+    enum LoadAlbums {
+        struct Request {}
+
+        struct Response {
+            let success: Bool
+            let albums: Albums
+        }
+
+        struct ViewModel {
+            let albums: [AlbumViewModel]
+        }
+    }
+
     enum Something {
         struct Request {
         }
