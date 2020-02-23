@@ -18,6 +18,7 @@ protocol UserAlbumsSceneBusinessLogic {
 
 protocol UserAlbumsSceneDataStore {
     var selectedAlbumId: Int { get set }
+    var selectedAlbumTitle: String? { get set }
     var userId: Int { get set }
 }
 
@@ -26,7 +27,9 @@ class UserAlbumsSceneInteractor: UserAlbumsSceneBusinessLogic, UserAlbumsSceneDa
     var worker: UserAlbumsSceneWorker? = UserAlbumsSceneWorker()
     var userId: Int = 0
     var albums: Albums = []
+
     var selectedAlbumId = 0
+    var selectedAlbumTitle: String?
 
     // MARK: Do something
 

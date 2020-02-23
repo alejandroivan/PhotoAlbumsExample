@@ -27,36 +27,23 @@ class UserAlbumsSceneRouter: NSObject, UserAlbumsSceneRoutingLogic, UserAlbumsSc
     // MARK: Routing
 
     func routeToAlbum() {
-        let id = dataStore!.selectedAlbumId
-        print("Routing to album with ID: \(id)")
-    }
+        let destinationVC = AlbumDetailsViewController()
+        var destinationDS = destinationVC.router!.dataStore!
 
-    //func routeToSomewhere(segue: UIStoryboardSegue?)
-    //{
-    //  if let segue = segue {
-    //    let destinationVC = segue.destination as! SomewhereViewController
-    //    var destinationDS = destinationVC.router!.dataStore!
-    //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-    //  } else {
-    //    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    //    let destinationVC = storyboard.instantiateViewController(withIdentifier: "SomewhereViewController") as! SomewhereViewController
-    //    var destinationDS = destinationVC.router!.dataStore!
-    //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-    //    navigateToSomewhere(source: viewController!, destination: destinationVC)
-    //  }
-    //}
+        passDataToAlbumDetails(source: dataStore!, destination: &destinationDS)
+        navigateToAlbumDetails(source: viewController!, destination: destinationVC)
+    }
 
     // MARK: Navigation
 
-    //func navigateToSomewhere(source: UserAlbumsSceneViewController, destination: SomewhereViewController)
-    //{
-    //  source.show(destination, sender: nil)
-    //}
+    func navigateToAlbumDetails(source: UserAlbumsSceneViewController, destination: AlbumDetailsViewController) {
+        source.show(destination, sender: nil)
+    }
 
     // MARK: Passing data
 
-    //func passDataToSomewhere(source: UserAlbumsSceneDataStore, destination: inout SomewhereDataStore)
-    //{
-    //  destination.name = source.name
-    //}
+    func passDataToAlbumDetails(source: UserAlbumsSceneDataStore, destination: inout AlbumDetailsDataStore) {
+        destination.albumId = source.selectedAlbumId
+        destination.albumTitle = source.selectedAlbumTitle
+    }
 }

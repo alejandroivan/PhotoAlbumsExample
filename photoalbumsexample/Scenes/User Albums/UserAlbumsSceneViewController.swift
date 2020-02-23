@@ -160,6 +160,7 @@ class UserAlbumsSceneViewController: UIViewController, UserAlbumsSceneDisplayLog
         let album = albums[index]
         var dataStore = interactor as? UserAlbumsSceneDataStore
         dataStore?.selectedAlbumId = album.id
+        dataStore?.selectedAlbumTitle = album.title
         router?.routeToAlbum()
     }
 }
