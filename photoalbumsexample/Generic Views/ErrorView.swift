@@ -26,14 +26,15 @@ class ErrorView: UIView {
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
         messageLabel.textColor = Colors.ErrorView.message
         messageLabel.text = Constants.ErrorView.message
+        messageLabel.font = Constants.ErrorView.font
         messageLabel.numberOfLines = 0
         addSubview(messageLabel)
 
         NSLayoutConstraint.activate([
-            messageLabel.topAnchor.constraint(equalTo: topAnchor),
-            messageLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
-            messageLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            messageLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
+            messageLabel.topAnchor.constraint(equalTo: topAnchor, constant: Constants.ErrorView.insets.top),
+            messageLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: Constants.ErrorView.insets.bottom),
+            messageLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.ErrorView.insets.left),
+            messageLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Constants.ErrorView.insets.right)
         ])
     }
 

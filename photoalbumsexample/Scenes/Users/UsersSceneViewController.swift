@@ -154,10 +154,11 @@ class UsersSceneViewController: UIViewController, UsersSceneDisplayLogic, UsersS
 
     @objc
     func fetchAllUsers() {
-        isLoading = true
-
         errorView?.removeFromSuperview()
         tableView.tableHeaderView = nil
+        errorView = nil
+
+        isLoading = true
 
         let request = UsersScene.FetchAll.Request()
         interactor?.fetchAllUsers(request: request)

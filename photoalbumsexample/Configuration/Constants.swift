@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 struct Constants {
     struct API {
@@ -14,5 +14,7 @@ struct Constants {
 
     enum ErrorView {
         static let message = "Hubo un problema al cargar la información de Internet. Toca para reintentar."
+        static let font = UIFont.systemFont(ofSize: 12, weight: .light)
+        static let insets = UIEdgeInsets(top: 2, left: 4, bottom: -2, right: -4)
     }
 }

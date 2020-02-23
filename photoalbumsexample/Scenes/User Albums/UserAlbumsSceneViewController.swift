@@ -141,6 +141,10 @@ class UserAlbumsSceneViewController: UIViewController, UserAlbumsSceneDisplayLog
     // MARK: Do something
 
     func loadAlbums() {
+        errorView?.removeFromSuperview()
+        tableView.tableHeaderView = nil
+        errorView = nil
+        
         isLoading = true
         let request = UserAlbumsScene.LoadAlbums.Request()
         interactor?.loadAlbums(request: request)
@@ -206,9 +210,6 @@ extension UserAlbumsSceneViewController: ErrorViewDelegate {
     }
 
     func didTouchErrorView() {
-        errorView?.removeFromSuperview()
-        tableView.tableHeaderView = nil
-        errorView = nil
         loadAlbums()
     }
 }
