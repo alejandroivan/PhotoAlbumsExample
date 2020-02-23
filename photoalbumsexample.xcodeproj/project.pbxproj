@@ -39,6 +39,7 @@
 		2C93229D2400A6EB00AD634E /* UserAlbumsSceneTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93229C2400A6EB00AD634E /* UserAlbumsSceneTableViewDataSource.swift */; };
 		2C93229F2400A6FE00AD634E /* UserAlbumsSceneTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93229E2400A6FE00AD634E /* UserAlbumsSceneTableViewDelegate.swift */; };
 		2C9322A22400F18B00AD634E /* ErrorViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9322A12400F18B00AD634E /* ErrorViewDelegate.swift */; };
+		2C9322A424023D6400AD634E /* ApiClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9322A324023D6400AD634E /* ApiClientError.swift */; };
 		2C97543623FD7A5A001BB95C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C97543523FD7A5A001BB95C /* AppDelegate.swift */; };
 		2C97543823FD7A5A001BB95C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C97543723FD7A5A001BB95C /* ViewController.swift */; };
 		2C97543E23FD7A5A001BB95C /* photoalbumsexample.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C97543C23FD7A5A001BB95C /* photoalbumsexample.xcdatamodeld */; };
@@ -120,6 +121,7 @@
 		2C93229C2400A6EB00AD634E /* UserAlbumsSceneTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAlbumsSceneTableViewDataSource.swift; sourceTree = "<group>"; };
 		2C93229E2400A6FE00AD634E /* UserAlbumsSceneTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAlbumsSceneTableViewDelegate.swift; sourceTree = "<group>"; };
 		2C9322A12400F18B00AD634E /* ErrorViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewDelegate.swift; sourceTree = "<group>"; };
+		2C9322A324023D6400AD634E /* ApiClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClientError.swift; sourceTree = "<group>"; };
 		2C97543223FD7A5A001BB95C /* photoalbumsexample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = photoalbumsexample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C97543523FD7A5A001BB95C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C97543723FD7A5A001BB95C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -451,6 +453,7 @@
 			isa = PBXGroup;
 			children = (
 				2C97547F23FD894D001BB95C /* ApiClient.swift */,
+				2C9322A324023D6400AD634E /* ApiClientError.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -738,6 +741,7 @@
 				2C384C8123FD9958008AAD85 /* UsersSceneInteractor.swift in Sources */,
 				2C83763F23FE0041002ACF87 /* UserDetailsSceneViewController.swift in Sources */,
 				2C97543E23FD7A5A001BB95C /* photoalbumsexample.xcdatamodeld in Sources */,
+				2C9322A424023D6400AD634E /* ApiClientError.swift in Sources */,
 				2C384C8B23FDB6E0008AAD85 /* ErrorView.swift in Sources */,
 				2C97547923FD85D3001BB95C /* Company.swift in Sources */,
 				2CBCB0A123FEC882000ED90F /* UserAlbumsSceneViewController.swift in Sources */,

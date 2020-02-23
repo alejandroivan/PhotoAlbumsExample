@@ -1,5 +1,10 @@
 import Alamofire
 import Foundation
+import SystemConfiguration
+
+protocol ApiClientReachability {
+    static var isNetworkReachable: Bool { get }
+}
 
 class ApiClient {
     static func get(
@@ -7,8 +12,14 @@ class ApiClient {
         success: @escaping (Data) -> Void,
         failure: @escaping (Error?) -> Void
     ) {
+        guard isNetworkReachable else {
+            let error: ApiClientError = .networkNotReachable
+            failure(error)
+            return
+        }
+
         // We'll let Alamofire handle the cache through URLCache, we just need to set the cachePolicy
-        AF.sessionConfiguration.requestCachePolicy = .returnCacheDataElseLoad
+        AF.sessionConfiguration.requestCachePolicy = .reloadRevalidatingCacheData
 
         let request = AF.request(
             url,
@@ -20,7 +31,8 @@ class ApiClient {
 
         request.responseJSON { response in
             guard let data = response.data else {
-                failure(response.error)
+                let error: ApiClientError = .noDataFromEndpoint(response.error)
+                failure(error)
                 return
             }
 
@@ -34,8 +46,14 @@ class ApiClient {
         success: @escaping (Data) -> Void,
         failure: @escaping (Error?) -> Void
     ) {
+        guard isNetworkReachable else {
+            let error: ApiClientError = .networkNotReachable
+            failure(error)
+            return
+        }
+
         // We'll let Alamofire handle the cache through URLCache, we just need to set the cachePolicy
-        AF.sessionConfiguration.requestCachePolicy = .returnCacheDataElseLoad
+        AF.sessionConfiguration.requestCachePolicy = .reloadRevalidatingCacheData
 
         let request = AF.request(
             url,
@@ -47,11 +65,38 @@ class ApiClient {
         
         request.responseJSON { response in
             guard let data = response.data else {
-                failure(response.error)
+                let error: ApiClientError = .noDataFromEndpoint(response.error)
+                failure(error)
                 return
             }
 
             success(data)
         }
+    }
+}
+
+extension ApiClient: ApiClientReachability {
+    static var isNetworkReachable: Bool {
+        var zeroAddress = sockaddr_in()
+        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
+        zeroAddress.sin_family = sa_family_t(AF_INET)
+
+        guard let defaultRouteReachability = withUnsafePointer(to: &zeroAddress, {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+                SCNetworkReachabilityCreateWithAddress(nil, $0)
+            }
+        }) else {
+            return false
+        }
+
+        var flags = SCNetworkReachabilityFlags()
+
+        guard SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags) else {
+            return false
+        }
+
+        let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0
+        let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
+        return (isReachable && !needsConnection)
     }
 }

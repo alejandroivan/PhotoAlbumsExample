@@ -208,6 +208,7 @@ extension UserAlbumsSceneViewController: ErrorViewDelegate {
     func didTouchErrorView() {
         errorView?.removeFromSuperview()
         tableView.tableHeaderView = nil
+        errorView = nil
         loadAlbums()
     }
 }
