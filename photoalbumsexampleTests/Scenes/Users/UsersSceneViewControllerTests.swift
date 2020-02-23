@@ -41,7 +41,7 @@ class UsersSceneViewControllerTests: XCTestCase {
         loadView()
 
         // Then
-        spy.fetchAllUsersCalled = true
+        XCTAssertTrue(spy.fetchAllUsersCalled)
     }
 
     func testShowErrorShouldAddASubview() {
@@ -53,5 +53,18 @@ class UsersSceneViewControllerTests: XCTestCase {
 
         // Then
         XCTAssertTrue(sut.view.subviews.count == numberOfViews + 1)
+    }
+
+    func testFetchAllUsersShouldStartLoadingAtTheInteractor() {
+        // Given
+        let spy = UsersSceneBusinessLogicSpy()
+        sut.interactor = spy
+
+        // When
+        sut.fetchAllUsers()
+
+        // Then
+        XCTAssertTrue(sut.isLoading)
+        XCTAssertTrue(spy.fetchAllUsersCalled)
     }
 }
