@@ -6,6 +6,7 @@ target 'photoalbumsexample' do
   use_frameworks!
 
   pod 'Alamofire'
+  pod 'AlamofireImage', '~> 4.0'
   pod 'Lightbox'
 
   # Pods for photoalbumsexample

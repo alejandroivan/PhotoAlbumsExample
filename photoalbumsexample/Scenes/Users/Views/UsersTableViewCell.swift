@@ -13,6 +13,7 @@ class UsersTableViewCell: UITableViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
+        textLabel?.text = nil
     }
 
     func setup(user: User) {

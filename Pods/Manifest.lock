@@ -1,5 +1,7 @@
 PODS:
-  - Alamofire (5.0.0)
+  - Alamofire (5.0.2)
+  - AlamofireImage (4.0.0):
+    - Alamofire (< 6.0.0, >= 5.0.1)
   - Cache (5.2.0)
   - Imaginary (4.2.0):
     - Cache (~> 5.0)
@@ -8,21 +10,24 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - AlamofireImage (~> 4.0)
   - Lightbox
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - AlamofireImage
     - Cache
     - Imaginary
     - Lightbox
 
 SPEC CHECKSUMS:
-  Alamofire: 58ff2bfb8daaacaa233d5c36e37b10a5248f59b1
+  Alamofire: 3ba7a4db18b4f62c4a1c0e1cb39d7f3d52e10ada
+  AlamofireImage: e01bc5f110641ff310b3e5400e972009dbc0c7a4
   Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
   Imaginary: dae33d06dbc2ada22f98afef5eb45cc061311a2c
   Lightbox: d317750e4132bfb871a5307cfe0a2c7d6a583c65
 
-PODFILE CHECKSUM: a9455280e40c8b4179f73805d7f5b2ec5d0ca8eb
+PODFILE CHECKSUM: be8f9403e052d992e45b631a9285faf4b53f1529
 
 COCOAPODS: 1.8.4

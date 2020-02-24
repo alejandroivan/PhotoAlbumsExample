@@ -9,5 +9,15 @@
 import UIKit
 
 class AlbumDetailsCollectionViewCell: UICollectionViewCell {
-    
+    let imageView = UIImageView()
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+    }
+
+    func prepare(imageUrl: URL?) {
+        guard let url = imageUrl else {
+            return
+        }
+    }
 }
