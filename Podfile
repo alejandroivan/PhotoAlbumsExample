@@ -6,7 +6,7 @@ target 'photoalbumsexample' do
   use_frameworks!
 
   pod 'Alamofire'
-  pod 'AlamofireImage', '~> 4.0'
+  pod 'AlamofireImage', :git => 'git@github.com:alejandroivan/AlamofireImage.git', :inhibit_warnings => true
   pod 'Lightbox'
 
   # Pods for photoalbumsexample

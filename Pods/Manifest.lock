@@ -10,16 +10,24 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
-  - AlamofireImage (~> 4.0)
+  - "AlamofireImage (from `git@github.com:alejandroivan/AlamofireImage.git`)"
   - Lightbox
 
 SPEC REPOS:
   trunk:
     - Alamofire
-    - AlamofireImage
     - Cache
     - Imaginary
     - Lightbox
+
+EXTERNAL SOURCES:
+  AlamofireImage:
+    :git: "git@github.com:alejandroivan/AlamofireImage.git"
+
+CHECKOUT OPTIONS:
+  AlamofireImage:
+    :commit: c3e56f465ba2c68ca047e3af7ec3cb36c92b457e
+    :git: "git@github.com:alejandroivan/AlamofireImage.git"
 
 SPEC CHECKSUMS:
   Alamofire: 3ba7a4db18b4f62c4a1c0e1cb39d7f3d52e10ada
@@ -28,6 +36,6 @@ SPEC CHECKSUMS:
   Imaginary: dae33d06dbc2ada22f98afef5eb45cc061311a2c
   Lightbox: d317750e4132bfb871a5307cfe0a2c7d6a583c65
 
-PODFILE CHECKSUM: be8f9403e052d992e45b631a9285faf4b53f1529
+PODFILE CHECKSUM: 2be2e55aa560f371aa7f816761190d2342ad8310
 
 COCOAPODS: 1.8.4
