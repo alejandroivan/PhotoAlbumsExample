@@ -22,6 +22,7 @@ class AlbumDetailsViewController: UIViewController, AlbumDetailsDisplayLogic {
         collectionViewLayout: UICollectionViewFlowLayout()
     )
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(style: .white)
+    weak var errorView: ErrorView?
 
     var collectionViewDataSource: AlbumDetailsCollectionViewDataSource? {
         didSet {
@@ -128,6 +129,10 @@ class AlbumDetailsViewController: UIViewController, AlbumDetailsDisplayLogic {
     // MARK: Do something
 
     func fetchAlbumPhotos() {
+        errorView?.removeFromSuperview()
+        collectionView.topAnchor.constraint(equalTo: getTopAnchor())
+        errorView = nil
+
         isLoading = true
         
         let request = AlbumDetails.FetchPhotos.Request()
@@ -138,13 +143,41 @@ class AlbumDetailsViewController: UIViewController, AlbumDetailsDisplayLogic {
         isLoading = false
         photos = viewModel.photos
         collectionView.reloadData()
-        print("DISPLAYING PHOTOS: \(viewModel.photos)")
     }
 
     func displayError() {
+        guard errorView == nil else { return }
+
+        let errorView = ErrorView(delegate: self)
+        self.errorView = errorView
+        view.addSubview(errorView)
+        view.bringSubviewToFront(errorView)
+
+        let heightConstraint = NSLayoutConstraint(
+            item: errorView,
+            attribute: .height,
+            relatedBy: .equal,
+            toItem: nil,
+            attribute: .notAnAttribute,
+            multiplier: 1.0,
+            constant: 0
+        )
+
+        NSLayoutConstraint.activate([
+            errorView.topAnchor.constraint(equalTo: getTopAnchor()),
+            errorView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            errorView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            heightConstraint
+        ])
+
         isLoading = false
 
-        print("ERROR!")
+        UIView.animate(withDuration: 0.3, animations: {
+            heightConstraint.constant = 50
+            self.view.layoutIfNeeded()
+        }) { _ in
+            self.collectionView.topAnchor.constraint(equalTo: errorView.bottomAnchor)
+        }
     }
 }
 
@@ -172,5 +205,12 @@ extension AlbumDetailsViewController: AlbumDetailsCollectionViewLogic {
         controller.dynamicBackground = true
 
         navigationController?.present(controller, animated: true, completion: nil)
+    }
+}
+
+extension AlbumDetailsViewController: ErrorViewDelegate {
+    func didTouchErrorView() {
+        collectionView.topAnchor.constraint(equalTo: getTopAnchor())
+        fetchAlbumPhotos()
     }
 }

@@ -165,7 +165,6 @@ class UserAlbumsSceneViewController: UIViewController, UserAlbumsSceneDisplayLog
     }
 }
 
-
 extension UserAlbumsSceneViewController: ErrorViewDelegate {
     func displayError() {
         guard errorView == nil else { return }
