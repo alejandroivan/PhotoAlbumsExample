@@ -22,6 +22,8 @@ class AlbumDetailsViewController: UIViewController, AlbumDetailsDisplayLogic {
         collectionViewLayout: UICollectionViewFlowLayout()
     )
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(style: .white)
+
+    weak var refreshControl: UIRefreshControl?
     weak var errorView: ErrorView?
 
     var collectionViewDataSource: AlbumDetailsCollectionViewDataSource? {
@@ -42,7 +44,7 @@ class AlbumDetailsViewController: UIViewController, AlbumDetailsDisplayLogic {
                 self.activityIndicator.startAnimating()
             } else {
                 self.activityIndicator.stopAnimating()
-//                self.refreshControl?.endRefreshing()
+                self.refreshControl?.endRefreshing()
             }
         }
     }
@@ -114,12 +116,29 @@ class AlbumDetailsViewController: UIViewController, AlbumDetailsDisplayLogic {
         ])
     }
 
+    private func setupPullToRefresh() {
+        let refreshControl = UIRefreshControl()
+        self.refreshControl = refreshControl
+        refreshControl.backgroundColor = Colors.PullToRefresh.background
+        refreshControl.tintColor = Colors.PullToRefresh.indicator
+
+        refreshControl.addTarget(
+            self,
+            action: #selector(fetchAlbumPhotos),
+            for: .valueChanged
+        )
+
+        collectionView.refreshControl = refreshControl
+    }
+
     // MARK: View lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
         setupActivityIndicator()
+        setupPullToRefresh()
+
         title = router?.dataStore?.albumTitle ?? "Fotos del álbum"
         view.backgroundColor = Colors.ViewController.background
 
@@ -128,11 +147,10 @@ class AlbumDetailsViewController: UIViewController, AlbumDetailsDisplayLogic {
 
     // MARK: Do something
 
+    @objc
     func fetchAlbumPhotos() {
         errorView?.removeFromSuperview()
-        collectionView.topAnchor.constraint(equalTo: getTopAnchor())
         errorView = nil
-
         isLoading = true
         
         let request = AlbumDetails.FetchPhotos.Request()
@@ -175,9 +193,7 @@ class AlbumDetailsViewController: UIViewController, AlbumDetailsDisplayLogic {
         UIView.animate(withDuration: 0.3, animations: {
             heightConstraint.constant = 50
             self.view.layoutIfNeeded()
-        }) { _ in
-            self.collectionView.topAnchor.constraint(equalTo: errorView.bottomAnchor)
-        }
+        })
     }
 }
 
@@ -210,7 +226,6 @@ extension AlbumDetailsViewController: AlbumDetailsCollectionViewLogic {
 
 extension AlbumDetailsViewController: ErrorViewDelegate {
     func didTouchErrorView() {
-        collectionView.topAnchor.constraint(equalTo: getTopAnchor())
         fetchAlbumPhotos()
     }
 }

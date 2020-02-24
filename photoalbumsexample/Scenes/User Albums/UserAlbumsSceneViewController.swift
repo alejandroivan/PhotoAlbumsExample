@@ -28,7 +28,9 @@ class UserAlbumsSceneViewController: UIViewController, UserAlbumsSceneDisplayLog
 
     var albums: [AlbumViewModel] = []
 
+    weak var refreshControl: UIRefreshControl?
     weak var errorView: ErrorView?
+    
     var tableView = UITableView()
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(style: .white)
 
@@ -50,7 +52,7 @@ class UserAlbumsSceneViewController: UIViewController, UserAlbumsSceneDisplayLog
                 self.activityIndicator.startAnimating()
             } else {
                 self.activityIndicator.stopAnimating()
-//                self.refreshControl?.endRefreshing()
+                self.refreshControl?.endRefreshing()
             }
         }
     }
@@ -119,12 +121,28 @@ class UserAlbumsSceneViewController: UIViewController, UserAlbumsSceneDisplayLog
         tableView.register(UsersTableViewCell.self, forCellReuseIdentifier: "UsersTableViewCell")
     }
 
+    private func setupPullToRefresh() {
+        let refreshControl = UIRefreshControl()
+        self.refreshControl = refreshControl
+        refreshControl.backgroundColor = Colors.PullToRefresh.background
+        refreshControl.tintColor = Colors.PullToRefresh.indicator
+
+        refreshControl.addTarget(
+            self,
+            action: #selector(loadAlbums),
+            for: .valueChanged
+        )
+
+        tableView.refreshControl = refreshControl
+    }
+
     // MARK: View lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         setupActivityIndicator()
+        setupPullToRefresh()
         title = "Álbumes"
         view.backgroundColor = Colors.ViewController.background
 
@@ -140,6 +158,7 @@ class UserAlbumsSceneViewController: UIViewController, UserAlbumsSceneDisplayLog
 
     // MARK: Do something
 
+    @objc
     func loadAlbums() {
         errorView?.removeFromSuperview()
         tableView.tableHeaderView = nil
