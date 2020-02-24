@@ -29,7 +29,7 @@ class UsersScenePresenterTests: XCTestCase {
         // Given
         let spy = UsersSceneDisplayLogicSpy()
         sut.viewController = spy
-        let response = UsersScene.FetchAll.Response()
+        let response = UsersScene.FetchAll.Response(favoritesOnly: false, users: [])
 
         // When
         sut.presentUsersList(response: response)
