@@ -1,23 +1,33 @@
-//
-//  AlbumDetailsCollectionViewCell.swift
-//  photoalbumsexample
-//
-//  Created by Alejandro Melo Domínguez on 23-02-20.
-//  Copyright © 2020 Alejandro Melo Domínguez. All rights reserved.
-//
-
+import AlamofireImage
 import UIKit
 
 class AlbumDetailsCollectionViewCell: UICollectionViewCell {
-    let imageView = UIImageView()
+    private let imageView = UIImageView()
 
     override func prepareForReuse() {
         super.prepareForReuse()
+        imageView.af.cancelImageRequest()
+        imageView.image = nil
     }
 
-    func prepare(imageUrl: URL?) {
-        guard let url = imageUrl else {
-            return
+    func setup(imageUrl: URL?) {
+        if imageView.superview == nil {
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.clipsToBounds = true
+            imageView.contentMode = .scaleAspectFill
+            imageView.backgroundColor = Colors.ImageView.background
+            addSubview(imageView)
+
+            NSLayoutConstraint.activate([
+                imageView.topAnchor.constraint(equalTo: topAnchor),
+                imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+                imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+                imageView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            ])
+        }
+
+        if let url = imageUrl {
+            imageView.af.setImage(withURL: url)
         }
     }
 }

@@ -34,4 +34,8 @@ struct Colors {
     enum Separators {
         static let background = UIColor.groupTableViewBackground
     }
+
+    enum ImageView {
+        static let background = UIColor.darkGray
+    }
 }

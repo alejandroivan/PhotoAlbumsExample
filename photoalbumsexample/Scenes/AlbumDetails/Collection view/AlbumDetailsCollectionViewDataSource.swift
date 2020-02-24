@@ -17,8 +17,11 @@ extension AlbumDetailsCollectionViewDataSource: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: "AlbumDetailsCollectionViewCell",
             for: indexPath
-        )
-        cell.backgroundColor = .red
+        ) as! AlbumDetailsCollectionViewCell
+
+        let image = viewController?.photos[indexPath.row]
+        cell.setup(imageUrl: image?.photoUrl)
+
         return cell
     }
 }
