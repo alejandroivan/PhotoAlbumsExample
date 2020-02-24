@@ -13,6 +13,10 @@ struct Constants {
         static let albumId = "albumId"
     }
 
+    struct String {
+        static let empty = ""
+    }
+
     enum ErrorView {
         static let message = "Hubo un problema al cargar la información de Internet. Toca para reintentar."
         static let font = UIFont.systemFont(ofSize: 12, weight: .light)
@@ -21,5 +25,9 @@ struct Constants {
 
     enum CollectionView {
         static let insets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+    }
+
+    enum PhotoViewer {
+        static let closeButton = "Cerrar"
     }
 }

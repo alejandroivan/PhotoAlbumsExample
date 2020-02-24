@@ -20,7 +20,8 @@ class AlbumDetailsPresenter: AlbumDetailsPresentationLogic {
                 PhotosViewModel(
                     id: $0.id,
                     title: $0.title,
-                    thumbnailUrl: $0.thumbnailUrlString
+                    thumbnailUrl: $0.thumbnailUrl,
+                    photoUrl: $0.url
                 )
             }
         )

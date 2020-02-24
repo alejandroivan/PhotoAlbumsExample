@@ -1,2 +1,5 @@
 ${PODS_ROOT}/Target Support Files/Pods-photoalbumsexample/Pods-photoalbumsexample-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
+${BUILT_PRODUCTS_DIR}/Cache/Cache.framework
+${BUILT_PRODUCTS_DIR}/Imaginary/Imaginary.framework
+${BUILT_PRODUCTS_DIR}/Lightbox/Lightbox.framework
