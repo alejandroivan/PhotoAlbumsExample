@@ -24,7 +24,7 @@ class UsersSceneInteractor: UsersSceneBusinessLogic, UsersSceneDataStore {
         worker?.fetchAllUsers(completion: { (success, users) in
             if success {
                 self.users = users
-                let response = UsersScene.FetchAll.Response(users: users)
+                let response = UsersScene.FetchAll.Response(favoritesOnly: false, users: users)
                 self.presenter?.presentUsersList(response: response)
             } else {
                 self.presenter?.presentErrorMessage()
@@ -35,7 +35,7 @@ class UsersSceneInteractor: UsersSceneBusinessLogic, UsersSceneDataStore {
     func filterFavorites(request: UsersScene.FetchAll.Request) {
         guard let users = users, !users.isEmpty else { return }
         let favoriteUsers = users.filter { $0.isFavorite }
-        let response = UsersScene.FetchAll.Response(users: favoriteUsers)
+        let response = UsersScene.FetchAll.Response(favoritesOnly: true, users: favoriteUsers)
         presenter?.presentUsersList(response: response)
     }
 }

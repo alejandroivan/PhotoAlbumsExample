@@ -22,6 +22,8 @@ class UsersSceneViewController: UIViewController, UsersSceneDisplayLogic, UsersS
     weak var refreshControl: UIRefreshControl?
     weak var errorView: ErrorView?
 
+    var favoritesFilterEnabled = false
+
     var tableViewDataSource: UITableViewDataSource? {
         didSet {
             tableView.dataSource = tableViewDataSource
@@ -156,6 +158,9 @@ class UsersSceneViewController: UIViewController, UsersSceneDisplayLogic, UsersS
         tableView.tableHeaderView = nil
         errorView = nil
 
+        favoritesFilterEnabled = false
+        hideFavoritesFilter()
+
         isLoading = true
 
         let request = UsersScene.FetchAll.Request(favoritesOnly: false)
@@ -165,12 +170,34 @@ class UsersSceneViewController: UIViewController, UsersSceneDisplayLogic, UsersS
     func showUsers(viewModel: UsersScene.FetchAll.ViewModel) {
         isLoading = false
         users = viewModel.users
+        showFavoritesFilter(filterOn: viewModel.favoritesOnly)
         tableView.reloadData()
     }
 
     // MARK: Table view logic
     func didSelectCellAtIndex(_ index: Int) {
         router?.routeToUserDetails(for: index)
+    }
+
+    // MARK: Favorites filter
+    private func showFavoritesFilter(filterOn: Bool) {
+        let item = UIBarButtonItem(
+            title: filterOn ? "Mostrar todos" : "Solo favoritos",
+            style: .plain,
+            target: self, action: #selector(filterButtonPressed)
+        )
+        navigationItem.rightBarButtonItem = item
+    }
+
+    private func hideFavoritesFilter() {
+        navigationItem.rightBarButtonItem = nil
+    }
+
+    @objc
+    private func filterButtonPressed() {
+        favoritesFilterEnabled = !favoritesFilterEnabled
+        let request = UsersScene.FetchAll.Request(favoritesOnly: favoritesFilterEnabled)
+        interactor?.fetchAllUsers(request: request)
     }
 }
 
