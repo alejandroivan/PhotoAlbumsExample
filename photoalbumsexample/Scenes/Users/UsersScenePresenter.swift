@@ -11,7 +11,7 @@ class UsersScenePresenter: UsersScenePresentationLogic {
     // MARK: Do something
 
     func presentUsersList(response: UsersScene.FetchAll.Response) {
-        let viewModel = UsersScene.FetchAll.ViewModel()
+        let viewModel = UsersScene.FetchAll.ViewModel(users: response.users)
         viewController?.showUsers(viewModel: viewModel)
     }
 

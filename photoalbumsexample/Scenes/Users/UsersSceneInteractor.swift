@@ -16,14 +16,26 @@ class UsersSceneInteractor: UsersSceneBusinessLogic, UsersSceneDataStore {
     // MARK: Do something
 
     func fetchAllUsers(request: UsersScene.FetchAll.Request) {
+        guard !request.favoritesOnly else {
+            filterFavorites(request: request)
+            return
+        }
+
         worker?.fetchAllUsers(completion: { (success, users) in
             if success {
                 self.users = users
-                let response = UsersScene.FetchAll.Response()
+                let response = UsersScene.FetchAll.Response(users: users)
                 self.presenter?.presentUsersList(response: response)
             } else {
                 self.presenter?.presentErrorMessage()
             }
         })
+    }
+
+    func filterFavorites(request: UsersScene.FetchAll.Request) {
+        guard let users = users, !users.isEmpty else { return }
+        let favoriteUsers = users.filter { $0.isFavorite }
+        let response = UsersScene.FetchAll.Response(users: favoriteUsers)
+        presenter?.presentUsersList(response: response)
     }
 }

@@ -34,9 +34,7 @@ class UsersSceneViewController: UIViewController, UsersSceneDisplayLogic, UsersS
         }
     }
 
-    var users: Users? {
-        return (interactor as? UsersSceneDataStore)?.users
-    }
+    var users: Users?
 
     var isLoading: Bool = false {
         didSet {
@@ -160,12 +158,13 @@ class UsersSceneViewController: UIViewController, UsersSceneDisplayLogic, UsersS
 
         isLoading = true
 
-        let request = UsersScene.FetchAll.Request()
+        let request = UsersScene.FetchAll.Request(favoritesOnly: false)
         interactor?.fetchAllUsers(request: request)
     }
 
     func showUsers(viewModel: UsersScene.FetchAll.ViewModel) {
         isLoading = false
+        users = viewModel.users
         tableView.reloadData()
     }
 
