@@ -1,34 +1,45 @@
-//
-//  photoalbumsexampleUITests.swift
-//  photoalbumsexampleUITests
-//
-//  Created by Alejandro Melo Domínguez on 19-02-20.
-//  Copyright © 2020 Alejandro Melo Domínguez. All rights reserved.
-//
-
 import XCTest
 
 class photoalbumsexampleUITests: XCTestCase {
+    var app: XCUIApplication!
+    let userName = "Patricia Lebsack"
 
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
-
-        // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-        XCUIApplication().launch()
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        app = XCUIApplication()
+        app.launch()
     }
 
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        app = nil
     }
 
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
+    func testFavoritesFilter() {
+        let usuariosNavigationBar = app.navigationBars["Usuarios"]
+        let userCell = app.tables.cells.staticTexts[userName]
+        let backButton = app.navigationBars.buttons.element(boundBy: 0)
 
+
+        XCTAssertTrue(userCell.exists)
+        usuariosNavigationBar.buttons["Solo favoritos"].tap()
+        XCTAssertFalse(userCell.exists)
+        usuariosNavigationBar.buttons["Mostrar todos"].tap()
+
+        userCell.tap()
+
+        let favoriteCell = app.tables.cells.staticTexts["Marcar como favorito"]
+        favoriteCell.tap()
+
+        backButton.tap()
+
+        XCTAssertTrue(userCell.exists)
+        usuariosNavigationBar.buttons["Solo favoritos"].tap()
+        XCTAssertTrue(userCell.exists)
+        usuariosNavigationBar.buttons["Mostrar todos"].tap()
+
+        // Now reset to initial state
+        userCell.tap()
+        favoriteCell.tap()
+        backButton.tap()
+    }
 }
